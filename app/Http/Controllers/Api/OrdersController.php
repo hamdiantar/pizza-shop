@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\GetOrderRequest;
 use App\Http\Requests\UpdateStatusRequest;
@@ -9,7 +10,6 @@ use App\Models\Order;
 use App\Responses\ApiResponse;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
-use Psy\Util\Json;
 
 class OrdersController extends Controller
 {

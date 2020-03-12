@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCustomerRequest;
 use App\Responses\ApiResponse;
 use App\Services\CustomerService;
 use Illuminate\Http\JsonResponse;
 
-class CustomersController
+class CustomersController extends Controller
 {
     /**
      * @var CustomerService
