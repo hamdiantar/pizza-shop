@@ -4,17 +4,19 @@ namespace App\Services;
 
 use App\Helper\ReturnData;
 use App\Mapper\OrderMapper;
-use App\Models\Customer;
 use App\Models\Order;
 use App\Repositories\CustomerRepository;
 use App\Repositories\OrderRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
+    const CACHE_KEY = 'orders';
     /**
      * @var OrderRepository
      */
@@ -40,8 +42,7 @@ class OrderService
         CustomerRepository $customerRepository,
         ReturnData $returnData,
         OrderMapper $orderMapper
-    )
-    {
+    ) {
         $this->orderRepository = $orderRepository;
         $this->customerRepository = $customerRepository;
         $this->returnData = $returnData;
@@ -127,9 +128,18 @@ class OrderService
         return $order;
     }
 
-    public function getAllOrders(): Collection
+    public function getAllOrders(): bool
     {
-        return $this->orderRepository->findAll();
+        return Cache::add(
+            $this->getCacheKey(),
+            collect($this->orderMapper->mapCollection($this->orderRepository->findAll())),
+            Carbon::now()->addSecond()
+        );
+    }
+
+    public function getCacheKey()
+    {
+        return self::CACHE_KEY;
     }
 
     private function checkOrderStatus(Order $order): bool

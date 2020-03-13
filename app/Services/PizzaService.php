@@ -7,6 +7,7 @@ use App\Models\Pizza;
 use App\Repositories\PizzaRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class PizzaService
@@ -104,6 +105,11 @@ class PizzaService
             JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
             [],
             ['pizza has not deleted']);
+    }
+
+    public function getAllPizza(): Collection
+    {
+        return $this->pizzaRepository->findAll();
     }
 
     private function addSizes(Pizza $pizza): void
