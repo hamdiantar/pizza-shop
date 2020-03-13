@@ -10,13 +10,16 @@ use App\Repositories\OrderRepository;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
+    /**
+     * @var string
+     */
     const CACHE_KEY = 'orders';
+
     /**
      * @var OrderRepository
      */
